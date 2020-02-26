@@ -38,7 +38,7 @@ function validateMovie(movie) {
     //Set validation properties
     const schema = {
         title: Joi.string().min(3).max(50).required(),
-        genreId: Joi.string().required(),
+        genreId: Joi.objectId().required(),
         numberInStock: Joi.number().default(0),
         dailyRentalRate: Joi.number().default(0)
     };

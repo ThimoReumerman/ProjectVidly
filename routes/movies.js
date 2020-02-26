@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
     if (!genre) return res.status(400).send(error.details[0].message);
 
     //Create new database object
-    let movie = new Movie({
+    const movie = new Movie({
         title: req.body.title,
         genre: {
             _id: genre.id,
@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
     });
 
     //Save movie to database
-    movie = await movie.save();
+    await movie.save();
 
     //Show added movie to user
     res.send(movie);

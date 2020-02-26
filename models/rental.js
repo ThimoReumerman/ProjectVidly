@@ -7,14 +7,6 @@ const {movieSchema} = require('./movie');
 const Rental = mongoose.model('Rental', new mongoose.Schema({
     customer: customerSchema,
     movie: movieSchema,
-    price: {
-        type: Number,
-        default: 0
-    },
-    isRented: {
-        type: Boolean,
-        default: false
-    },
     dateOut: {
         type: Date,
         required: true,
@@ -34,13 +26,8 @@ function validateRental(rental) {
 
     //Set validation properties
     const schema = {
-        customerId: Joi.string().required(),
-        movieId: Joi.string().required(),
-        // price: Joi.number(),
-        // isRented: Joi.boolean(),
-        // dateIn: Joi.date(),
-        // dateOut: Joi.date(),
-        // rentalFee: Joi.number()
+        customerId: Joi.objectId().required(),
+        movieId: Joi.objectId().required()
     }
 
     //Return validation of the rental
