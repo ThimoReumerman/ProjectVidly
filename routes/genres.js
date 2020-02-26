@@ -54,6 +54,7 @@ router.delete('/:id', async (req, res) => {
     res.send(genre);
 });
 
+//Show the genre
 router.get('/:id', async (req, res) => {
     //Get the genre
     const genre = await Genre.findById(req.params.id);
