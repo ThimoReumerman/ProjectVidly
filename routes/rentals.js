@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const mongoose = require('mongoose');
 const Fawn = require('fawn');
 const {Movie} = require('../models/movie');
@@ -19,7 +20,7 @@ router.get('/', async (req, res) => {
 });
 
 //Create a new rental
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 
     //Check for validation error, if so return 400
     const { error } = validate(req.body);

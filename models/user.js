@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 //Create schema
 const userSchema = new mongoose.Schema({
+    _id: String,
     name: {
         type: String,
         minlength: 3,
@@ -20,12 +21,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         minLength: 5,
         maxLength: 255
-    }
+    },
+    isAdmin: Boolean
 });
 
 userSchema.methods.generateAuthToken = function() {
     //Generate token
-    const token = jwt.sign({_id: this._id}, config.get('jwtPrivateKey'));
+    // console.log(`ID is ${this.id}, name is ${this.name}, isAdmin is ${this.isAdmin}.`);
+    const token = jwt.sign({_id: this._id, name: this.name, isAdmin: this.isAdmin}, config.get('jwtPrivateKey'));
+    console.log('Signing this object: ', {_id: this._id, name: this.name, isAdmin: this.isAdmin}, ' with config ', config.get('jwtPrivateKey'));
+    console.log('The token is ', token);
+
+    const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
+    console.log('decoded', decoded);
+    
     return token;
 }
 
@@ -45,8 +54,6 @@ function validateUser(user) {
     //Return validation
     return Joi.validate(user, schema);
 }
-
-//Generate Auth token
 
 module.exports.userSchema = userSchema;
 module.exports.User = User;

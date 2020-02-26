@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const lodash = require('lodash');
@@ -6,6 +7,11 @@ const bcrypt = require('bcrypt');
 const {User, validate} = require('../models/user');
 const express = require('express');
 const router = express.Router();
+
+router.get('/me', auth, async (req, res) => {
+    const user = await User.findById(req.user._id).select('-password');
+    res.send(user);
+});
 
 //Create a new user with POST request
 router.post('/', async (req, res) => {

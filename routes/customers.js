@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const {Customer, validate} = require('../models/customer');
 const mongoose = require('mongoose');
 const express = require('express'); //Get express module
@@ -10,7 +11,7 @@ router.get('/', async (req, res) => {
 });
 
 //Create new genre with POST request
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     //Check for validation error, if so return 400
     const { error } = validate(req.body);
     if(error) return res.status(400).send(error.details[0].message);
@@ -30,7 +31,7 @@ router.post('/', async (req, res) => {
 });
 
 //Update genre with PUT request
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
 
     //Validate the name
     const { error } = validate(req.body);
@@ -53,7 +54,7 @@ router.put('/:id', async (req, res) => {
 });
 
 //Delete genre with DELETE request
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     //Get genre to remove
     const customer = await Customer.findByIdAndRemove(req.params.id);
 

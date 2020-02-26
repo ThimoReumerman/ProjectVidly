@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const mongoose = require('mongoose');
 const {Genre} = require('../models/genre');
 const {Movie, validate} = require('../models/movie');
@@ -11,7 +12,7 @@ router.get('/', async (req, res) => {
 });
 
 //Create new movie with POST request
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 
     //Check for validation error, if so return 400
     const { error } = validate(req.body);
@@ -40,7 +41,7 @@ router.post('/', async (req, res) => {
 });
 
 //Update movie with PUT request
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
 
     //Validate the request
     const { error } = validate(req.body);
@@ -69,7 +70,7 @@ router.put('/:id', async (req, res) => {
 });
 
 //Delete movie with DELETE request
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     
     //Get the movie to delete
     const movie = await Movie.findByIdAndRemove(req.params.id);
