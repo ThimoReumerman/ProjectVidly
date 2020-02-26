@@ -32,6 +32,7 @@ router.post('/', async (req, res) => {
         dailyRentalRate: req.body.dailyRentalRate
     });
 
+    //Save movie to database
     movie = await movie.save();
 
     //Show added movie to user

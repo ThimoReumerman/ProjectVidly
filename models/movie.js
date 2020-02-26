@@ -2,8 +2,8 @@ const Joi = require('joi');
 const mongoose = require('mongoose');
 const {genreSchema} = require('./genre');
 
-//Create model
-const Movie = mongoose.model('Movie', new mongoose.Schema({
+//Create schema
+const movieSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -27,7 +27,10 @@ const Movie = mongoose.model('Movie', new mongoose.Schema({
         min: 0,
         max: 255
     }
-}));
+});
+
+//Create model
+const Movie = mongoose.model('Movie', movieSchema);
 
 //Validate the movie
 function validateMovie(movie) {
@@ -44,5 +47,6 @@ function validateMovie(movie) {
     return Joi.validate(movie, schema);
 }
 
+module.exports.movieSchema = movieSchema;
 module.exports.Movie = Movie;
 module.exports.validate = validateMovie;
