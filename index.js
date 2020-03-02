@@ -1,3 +1,6 @@
+require('express-async-errors');
+const winston = require('winston');
+require('winston-mongodb');
 const config = require('config');
 const mongoose = require('mongoose');
 const Joi = require('joi');
@@ -5,7 +8,11 @@ Joi.objectId = require('joi-objectid')(Joi);
 const express = require('express'); //Get express module
 const app = express();
 
+winston.add(winston.transports.File, {filename: 'logfile.log'});
+winston.add(winston.transports.MongoDB, {db: 'mongodb://localhost/vidly', level: 'error'});
+
 // API Routes
+const error = require('./middleware/error');
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
 const movies = require('./routes/movies');
@@ -30,6 +37,8 @@ app.use('/api/movies', movies);
 app.use('/api/rentals', rentals);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
+
+app.use(error); //Pass ref to error function
 
 //Set the root page
 app.get('/', (req, res) => {

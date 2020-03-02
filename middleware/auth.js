@@ -5,8 +5,6 @@ function auth(req, res, next) {
     //Get token
     const token = req.header('token');
 
-    console.log('xToken in header is ', token);
-
     //Check if token exists
     if(!token) return res.status(401).send('Access denied. No token provided.');
 

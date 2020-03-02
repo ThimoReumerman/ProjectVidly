@@ -5,10 +5,12 @@ const {Genre, validate} = require('../models/genre');
 const express = require('express'); //Get express module
 const router = express.Router();
 
+
 //List the currently existing genres on /api/genres
 router.get('/', async (req, res) => {
     const genres = await Genre.find().sort('name');
     res.send(genres);
+
 });
 
 //Create new genre with POST request
