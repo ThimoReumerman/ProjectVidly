@@ -27,13 +27,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.generateAuthToken = function() {
     //Generate token
-    // console.log(`ID is ${this.id}, name is ${this.name}, isAdmin is ${this.isAdmin}.`);
     const token = jwt.sign({_id: this._id, name: this.name, isAdmin: this.isAdmin}, config.get('jwtPrivateKey'));
-    console.log('Signing this object: ', {_id: this._id, name: this.name, isAdmin: this.isAdmin}, ' with config ', config.get('jwtPrivateKey'));
-    console.log('The token is ', token);
-
-    const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
-    console.log('decoded', decoded);
     
     return token;
 }
