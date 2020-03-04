@@ -1,3 +1,4 @@
+const validateObjectId = require('../middleware/validateObjectId');
 const admin = require('../middleware/admin');
 const auth = require('../middleware/auth');
 const mongoose = require('mongoose');
@@ -29,7 +30,7 @@ router.post('/', auth, async (req, res) => {
 });
 
 //Update genre with PUT request
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', [auth, validateObjectId], async (req, res) => {
 
     //Validate the name
     const { error } = validate(req.body);
@@ -48,7 +49,7 @@ router.put('/:id', auth, async (req, res) => {
 });
 
 //Delete genre with DELETE request
-router.delete('/:id', [auth, admin], async (req, res) => {
+router.delete('/:id', [auth, admin, validateObjectId], async (req, res) => {
     //Get genre to remove
     const genre = await Genre.findByIdAndRemove(req.params.id);
 
@@ -60,7 +61,8 @@ router.delete('/:id', [auth, admin], async (req, res) => {
 });
 
 //Show the genre
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateObjectId, async (req, res) => {
+
     //Get the genre
     const genre = await Genre.findById(req.params.id);
 
