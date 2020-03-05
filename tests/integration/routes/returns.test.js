@@ -13,6 +13,7 @@ describe('/api/returns', () => {
     let movie;
     let token;
 
+    // Configure happy path
     const exec = () => {
         return request(server)
             .post('/api/returns')
@@ -129,8 +130,6 @@ describe('/api/returns', () => {
 
     it('should return the rental in the body of the response', async() => {
         const res = await exec();
-
-        const rentalInDb = await Rental.findById(rental._id);
 
         expect(Object.keys(res.body)).toEqual(
             expect.arrayContaining(['dateOut', 'dateReturned', 'rentalFee', 'customer', 'movie'])

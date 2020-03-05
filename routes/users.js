@@ -1,35 +1,22 @@
 const auth = require('../middleware/auth');
-const jwt = require('jsonwebtoken');
-const config = require('config');
 const lodash = require('lodash');
-const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const {User, validate} = require('../models/user');
+const {User, validation} = require('../models/user');
 const express = require('express');
+const validate = require('../middleware/validate');
 const router = express.Router();
 
 router.get('/me', auth, async (req, res) => {
-    const user = await User.findById(req.user._id).select('-password');
-    res.send(user);
+    const user = await User.findById(req.body._id).select('-password');
+    return res.status(200).send(user);
 });
 
 //Create a new user with POST request
-router.post('/', async (req, res) => {
-
-    //Check for validation error, if so return 400
-    const {error} = validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+router.post('/', validate(validation), async (req, res) => {
 
     //Check if user is in database
     let user = await User.findOne({email: req.body.email});
     if(user) return res.status(400).send('User already registered.');
-
-    //Create a new database object
-    // user = new User({
-    //     name: req.body.name,
-    //     email: req.body.email,
-    //     password: req.body.password
-    // });
 
     //Create new user
     user = new User(lodash.pick(req.body, ['name', 'email', 'password']));
@@ -46,8 +33,6 @@ router.post('/', async (req, res) => {
 
     //Set header and send response
     res.header('x-auth-token', token).send(lodash.pick(user, ['_id', 'name', 'email']));
-
-
 });
 
 module.exports = router;

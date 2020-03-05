@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 //Create schema
 const userSchema = new mongoose.Schema({
-    _id: String,
+    // _id: String,
     name: {
         type: String,
         minlength: 3,
@@ -51,4 +51,4 @@ function validateUser(user) {
 
 module.exports.User = User;
 module.exports.userSchema = userSchema;
-module.exports.validate = validateUser;
+module.exports.validation = validateUser;
