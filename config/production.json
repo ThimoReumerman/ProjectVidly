@@ -1,0 +1,6 @@
+{
+    "name": "Vidly movies rental services - production",
+    "mail": {
+        "host": "prod-mail-server"
+    }
+}

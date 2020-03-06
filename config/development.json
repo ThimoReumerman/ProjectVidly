@@ -1,0 +1,6 @@
+{
+    "name": "Vidly movies rental services - developmnet",
+    "mail": {
+        "host": "dev-mail-server"
+    }
+}
