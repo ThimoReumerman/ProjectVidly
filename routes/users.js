@@ -7,7 +7,7 @@ const validate = require('../middleware/validate');
 const router = express.Router();
 
 router.get('/me', auth, async (req, res) => {
-    const user = await User.findById(req.body._id).select('-password');
+    const user = await User.findById(req.user).select('-password');
     return res.status(200).send(user);
 });
 

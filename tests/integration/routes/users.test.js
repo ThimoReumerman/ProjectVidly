@@ -27,35 +27,6 @@ describe('/api/users', () => {
         await User.remove({});
     });
 
-    describe('GET /me', () => {
-
-        const exec = () => {
-            return request(server)
-                .get('/api/users/me')
-                .set('x-auth-token', token)
-                .send(user);
-        }
-
-        it ('should return 401 if no token is provided', async() => {
-            token = '';
-            const res = await exec();
-            expect(res.status).toBe(401);
-        });
-
-        it ('should return 200 if request is valid', async() => {
-            const res = await exec();
-            expect(res.status).toBe(200);
-        })
-
-        it('should return user if token is valid', async() => {
-            const res = await exec();
-
-            expect(Object.keys(res.body)).toEqual(
-                expect.arrayContaining(['_id', 'email'])
-            );
-        });
-    });
-
     describe('POST /', () => {
         let name;
         let email;
